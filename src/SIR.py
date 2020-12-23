@@ -57,9 +57,9 @@ if __name__ == '__main__':
     np.set_printoptions(suppress=True)
 
     # read input data
-    confirmed_global = pd.read_csv('./input/time_series_covid19_confirmed_global.csv')
-    recovered_global = pd.read_csv('./input/time_series_covid19_recovered_global.csv')
-    deaths_global = pd.read_csv('./input/time_series_covid19_deaths_global.csv')
+    confirmed_global = pd.read_csv('../data/time_series_covid19_confirmed_global.csv')
+    recovered_global = pd.read_csv('../data/time_series_covid19_recovered_global.csv')
+    deaths_global = pd.read_csv('../data/time_series_covid19_deaths_global.csv')
 
     confirmed = confirmed_global[confirmed_global['Country/Region'] == 'Italy'].drop(['Province/State', 'Country/Region', 'Lat', 'Long'], axis=1).sum()
     recovered = recovered_global[recovered_global['Country/Region'] == 'Italy'].drop(['Province/State', 'Country/Region', 'Lat', 'Long'], axis=1).sum()
