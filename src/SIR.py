@@ -59,10 +59,11 @@ if __name__ == '__main__':
     # set params
     country = 'Italy'  # country
     N = 60000000  # total population
-    train_start = '3/31/20'
-    train_end = '4/3/20'
-    valid_start = '4/4/20'
-    pre_num = 730
+    train_start = '10/30/20'
+    train_end = '11/10/20'
+    valid_start = '11/11/20'
+    valid_end = '12/4/20'
+    pre_num = 24
 
     # read input data
     confirmed_global = pd.read_csv('../data/time_series_covid19_confirmed_global.csv')
@@ -83,8 +84,8 @@ if __name__ == '__main__':
     # print(recovered_train)
 
     # validation set
-    infectious_valid = infectious.loc[valid_start:]
-    recovered_valid = recovered.loc[valid_start:]
+    infectious_valid = infectious.loc[valid_start:valid_end]
+    recovered_valid = recovered.loc[valid_start:valid_end]
 
     # get initial data
     I0 = infectious_train.loc[train_start]
@@ -95,24 +96,25 @@ if __name__ == '__main__':
     model = SIRModel(0.0001, 0.0001, 'L-BFGS-B')
     model.fit(Y0, infectious_train, recovered_train)
     best_params = model.get_optimal_params()
-    best_params = model.get_optimal_params()
-    print(best_params)
+    # best_params = model.get_optimal_params()
+    # print(best_params)
 
     # predict
     i0 = infectious_train.loc[train_end]
     r0 = recovered_train.loc[train_end]
     y0 = get_init_data(N, i0, r0)
     predict_result = model.predict(y0, pre_num)
+    # print(predict_result)
 
-    t = np.linspace(1, len(infectious), len(infectious))
-    t_predict = np.linspace(64, 793, pre_num)
+    t = np.linspace(1, len(infectious_valid), len(infectious_valid))
+    t_predict = np.linspace(1, pre_num, pre_num)
 
     fig = plt.figure(facecolor='w', dpi=100)
     ax = fig.add_subplot(111)
 
     # real I and R
-    ax.plot(t, infectious, 'r', alpha=0.5, lw=2, label='infectious_real')
-    ax.plot(t, recovered, 'g', alpha=0.5, lw=2, label='recovered_real')
+    ax.plot(t, infectious_valid, 'r', alpha=0.5, lw=2, label='infectious_real')
+    ax.plot(t, recovered_valid, 'g', alpha=0.5, lw=2, label='recovered_real')
     # predicted I and R
     ax.plot(t_predict, predict_result[:, 1], 'r-.', alpha=0.5, lw=2, label='infectious_predict')
     ax.plot(t_predict, predict_result[:, 2], 'g-.', alpha=0.5, lw=2, label='recovered_predict')
