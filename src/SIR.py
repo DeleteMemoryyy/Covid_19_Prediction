@@ -57,12 +57,12 @@ if __name__ == '__main__':
     np.set_printoptions(suppress=True)
 
     # set params
-    country = 'Italy'  # country
-    N = 60000000  # total population
-    train_start = '10/30/20'
+    country = 'Switzerland'  # country
+    N = 8544034  # total population
+    train_start = '10/11/20'
     train_end = '11/10/20'
     valid_start = '11/11/20'
-    valid_end = '12/4/20'
+    valid_end = '12/10/20'
 
     # read input data
     confirmed_global = pd.read_csv('../data/time_series_covid19_confirmed_global.csv')
