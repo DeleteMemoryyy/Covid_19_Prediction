@@ -105,7 +105,7 @@ if __name__ == '__main__':
     y0 = get_init_data(N, i0, r0)
     predict_result = model.predict(y0, pre_num)
     # print(predict_result)
-    np.savetxt(country + '_sir_predict.csv', predict_result, delimiter=',')
+    np.savetxt('../sir_predict_data' + country + '_sir_predict.csv', predict_result, delimiter=',')
 
     t = np.linspace(1, len(infectious_valid), len(infectious_valid))
     t_predict = np.linspace(1, pre_num, pre_num)
