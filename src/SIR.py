@@ -63,7 +63,6 @@ if __name__ == '__main__':
     train_end = '11/10/20'
     valid_start = '11/11/20'
     valid_end = '12/4/20'
-    pre_num = 24
 
     # read input data
     confirmed_global = pd.read_csv('../data/time_series_covid19_confirmed_global.csv')
@@ -86,6 +85,7 @@ if __name__ == '__main__':
     # validation set
     infectious_valid = infectious.loc[valid_start:valid_end]
     recovered_valid = recovered.loc[valid_start:valid_end]
+    pre_num = len(infectious_valid)
 
     # get initial data
     I0 = infectious_train.loc[train_start]
@@ -105,6 +105,7 @@ if __name__ == '__main__':
     y0 = get_init_data(N, i0, r0)
     predict_result = model.predict(y0, pre_num)
     # print(predict_result)
+    np.savetxt(country + '_predict.csv', predict_result, delimiter=',')
 
     t = np.linspace(1, len(infectious_valid), len(infectious_valid))
     t_predict = np.linspace(1, pre_num, pre_num)
