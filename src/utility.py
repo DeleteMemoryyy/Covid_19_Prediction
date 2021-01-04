@@ -56,8 +56,6 @@ class Stacking(object):
         for i, stacker in enumerate(self.stackers):
             y_predict[:, :, i] = stacker.predict(
                 s_test.reshape((s_test.shape[0], -1)))[:]
-            y_predict[:, :, i] = stacker.predict(
-                s_train.reshape(s_train.shape[0], -1))[:]
 
             y_predict_weighted += y_predict[:, :, i] * self.weights[i]
 
@@ -129,7 +127,7 @@ neg_log_loss_scorer = metrics.make_scorer(
     neg_log_loss, greater_is_better=False)
 
 
-def CV(model, dl, verbose=1, model_name=None):
+def cross_validation(model, dl, verbose=1, model_name=None):
     model_name = model_name or ''
 
     valid_log_loss = - \
@@ -150,13 +148,12 @@ def CV(model, dl, verbose=1, model_name=None):
     return valid_log_loss, test_log_loss
 
 
-def grid_search(model, dl, param_grid, cv=None, verbose=0, model_name=None):
+def grid_search(model, dl, param_grid, cv=None, n_jobs=16, verbose=0, model_name=None):
     model_name = model_name or ''
 
     grid = GridSearchCV(model, param_grid,
                         scoring=neg_log_loss_scorer, cv=cv,
-                        n_jobs=8,
-                        # n_jobs=1,
+                        n_jobs=n_jobs,
                         verbose=verbose)
     grid.fit(dl.x_train, dl.y_train)
 
@@ -165,7 +162,7 @@ def grid_search(model, dl, param_grid, cv=None, verbose=0, model_name=None):
     return grid.best_estimator_
 
 
-def varify_on_test(model, dl, verbose=0, model_name=None):
+def verify_on_test(model, dl, verbose=0, model_name=None):
     model_name = model_name or ''
 
     model.fit(dl.x_train, dl.y_train)

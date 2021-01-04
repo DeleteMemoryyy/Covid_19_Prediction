@@ -57,12 +57,12 @@ if __name__ == '__main__':
     np.set_printoptions(suppress=True)
 
     # set params
-    country = 'Switzerland'  # country
-    N = 8544034  # total population
-    train_start = '10/11/20'
+    country = 'Italy'  # country
+    N = 60000000  # total population
+    train_start = '10/30/20'
     train_end = '11/10/20'
     valid_start = '11/11/20'
-    valid_end = '12/10/20'
+    valid_end = '12/4/20'
 
     # read input data
     confirmed_global = pd.read_csv('../data/time_series_covid19_confirmed_global.csv')
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     y0 = get_init_data(N, i0, r0)
     predict_result = model.predict(y0, pre_num)
     # print(predict_result)
-    np.savetxt('../sir_predict_data/' + country + '_sir_predict.csv', predict_result, delimiter=',')
+    np.savetxt(country + '_sir_predict.csv', predict_result, delimiter=',')
 
     t = np.linspace(1, len(infectious_valid), len(infectious_valid))
     t_predict = np.linspace(1, pre_num, pre_num)

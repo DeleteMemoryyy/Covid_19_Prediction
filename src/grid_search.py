@@ -6,10 +6,10 @@ from sklearn import svm as svm
 import xgboost as xgb
 import lightgbm as lgb
 
-from utility import grid_search, varify_on_test
-from dataloader import Dataloader
+from utility import grid_search, verify_on_test
+from my_dataloader import My_DataLoader
 
-data_loader = Dataloader()
+data_loader = My_DataLoader()
 data_loader.load_from_csv()
 data_loader.spilt_train_test()
 
@@ -70,7 +70,7 @@ model_names = [
     'lgbr'
 ]
 for idx, model in enumerate(models):
-    train_log_loss, test_log_loss, max_log_loss = varify_on_test(
+    train_log_loss, test_log_loss, max_log_loss = verify_on_test(
         model, data_loader)
     print('{0:s}  train_log_loss: {1:f}'.format(
         model_names[idx], train_log_loss))
@@ -108,7 +108,7 @@ for idx, model in enumerate(models):
 # for idx, model in enumerate(models):
 #     best_model = grid_search(
 #         model, data_loader, param_grid[idx], cv=3, verbose=2, model_name=model_names[idx])
-#     train_log_loss, test_log_loss = varify_on_test(best_model, data_loader)
+#     train_log_loss, test_log_loss = verify_on_test(best_model, data_loader)
 #     print('{0:s}  train_log_loss: {1:f}'.format(
 #         model_names[idx], train_log_loss))
 #     print('{0:s}  test_log_loss: {1:f}'.format(

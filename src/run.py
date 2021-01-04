@@ -10,12 +10,12 @@ from sklearn import kernel_ridge
 from sklearn import linear_model as lm
 from sklearn import svm as svm
 
-from dataloader import Dataloader
+from my_dataloader import My_DataLoader
 from utility import Stacking, neg_log_loss
 
 warnings.filterwarnings('ignore')
 
-data_loader = Dataloader()
+data_loader = My_DataLoader()
 data_loader.load_from_csv()
 data_loader.spilt_train_test()
 
